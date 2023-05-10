@@ -27,7 +27,7 @@ void relax(int u, int graph[][V], int dist[], bool visited[], int par[])
     int v;
     for (int v = 0; v<V; v++)
     {
-        if (graph[u][v] && dist[v] > dist[u] + graph[u][v])
+        if (graph[u][v] &&  dist[u] + graph[u][v] < dist[v])
         {
             dist[v] = dist[u] + graph[u][v];
             par[v] = u;
