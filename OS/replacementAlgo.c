@@ -62,6 +62,25 @@ void dispPgFaultCnt()
     printf("\nTotal no of page faults:%d", pgfaultcnt);
 }
 
+void fifo()
+{
+    initialize();
+    for (i = 0; i < n; i++)
+    {
+        printf("\nFor %d :", in[i]);
+        if (isHit(in[i]) == 0)
+        {
+            for (k = 0; k < nf - 1; k++)
+            p[k] = p[k + 1];
+            p[k] = in[i];
+            pgfaultcnt++;
+            dispPages();
+        }
+        else
+            printf("HIT");
+    }
+    dispPgFaultCnt();
+}
 void optimal()
 {
     initialize();
@@ -107,7 +126,7 @@ void optimal()
             dispPages();
         }
         else
-            printf("No page fault");
+            printf("HIT");
     }
     dispPgFaultCnt();
 }
@@ -115,16 +134,12 @@ void optimal()
 void lru()
 {
     initialize();
-
     int least[50];
     for (i = 0; i < n; i++)
     {
-
         printf("\nFor %d :", in[i]);
-
         if (isHit(in[i]) == 0)
         {
-
             for (j = 0; j < nf; j++)
             {
                 int pg = p[j];
@@ -155,7 +170,6 @@ void lru()
             }
             p[repindex] = in[i];
             pgfaultcnt++;
-
             dispPages();
         }
         else
@@ -163,12 +177,62 @@ void lru()
     }
     dispPgFaultCnt();
 }
+
+void lfu()
+{
+    int usedcnt[100];
+    int least, repin, sofarcnt = 0, bn=0;
+    initialize();
+    for (i = 0; i < nf; i++)
+    usedcnt[i] = 0;
+    for (i = 0; i < n; i++)
+    {
+        printf("\nFor %d :", in[i]);
+        if (isHit(in[i]))
+        {
+            int hitind = getHitIndex(in[i]);
+            usedcnt[hitind]++;
+            printf("HIT");
+        }
+        else
+        {
+            pgfaultcnt++;
+            if (bn < nf)
+            {
+                p[bn] = in[i];
+                usedcnt[bn]++;
+                bn++;
+            }
+            else
+            {
+                least = 9999;
+                for (k = 0; k < nf; k++)
+                    if (usedcnt[k] < least)
+                    {
+                        least = usedcnt[k];
+                        repin = k;
+                    }
+                p[repin] = in[i];
+                sofarcnt = 0;
+                
+                for (k = 0; k <= i; k++)
+                if (in[i] == in[k])
+                sofarcnt = sofarcnt + 1;
+                
+                usedcnt[repin] = sofarcnt;
+            }
+            dispPages();
+        }
+    }
+    dispPgFaultCnt();
+}
+
 int main()
 {
     int choice;
     while (1)
     {
-        printf("\nPage Replacement Algorithms\n1.Enter data\n2.Optimal\n3.LRU\n4.Exit\nEnter your choice:");
+        printf("\nPage Replacement Algorithms\n1.Enter data\n2.FIFO\n3.Optimal\n4.LRU\n5.LFU\n6.Exit\nEnter your choice:");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -176,10 +240,16 @@ int main()
             getData();
             break;
         case 2:
-            optimal();
+            fifo();
             break;
         case 3:
+            optimal();
+            break;
+        case 4:
             lru();
+            break;
+        case 5:
+            lfu();
             break;
         default:
             return 0;
