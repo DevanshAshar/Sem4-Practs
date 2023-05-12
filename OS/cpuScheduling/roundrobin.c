@@ -28,7 +28,7 @@ int main()
     printf("Enter the time quantum: ");
     scanf("%d", &tq);
 
-    printf("\nGantt Chart:\n");
+    printf("\nGantt Chart:\n"); //gant chart mein error hai baaki table ka output sahi hai
     printf("|");
 
     while (1)
