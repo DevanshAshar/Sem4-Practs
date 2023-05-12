@@ -1,48 +1,32 @@
 #include <stdio.h>
 void main()
 {
-    int bsize[15], psize[15], bno, pno, flags[15], allocation[15], i, j;
-    for (i = 0; i < 15; i++)
+    int n_proc=4,n_mem=6,mem_loc[100],visited[100],mem_index=0;
+    int mem_sizes[] = {200, 400, 600, 500, 300, 250};
+    int process_sizes[] = {357, 210, 468, 491};
+    for(int i=0;i<n_mem;i++)
     {
-        flags[i] = 0;
-        allocation[i] = -1;
+        visited[i] = 0;
+        mem_loc[i]=-1;
     }
-    printf("enter no of Memory Blocks : ");
-    scanf("%d", &bno);
-    printf("enter size of each Memory Block : \n");
-    for (i = 0; i < bno; i++)
-        scanf("%d", &bsize[i]);
-    printf("enter no of Processes : ");
-    scanf("%d", &pno);
-    printf("enter size of each Process : \n");
-    for (i = 0; i < pno; i++)
-        scanf("%d", &psize[i]);
-    for (i = 0; i < pno; i++)
+    for(int i=0;i<n_proc;i++)
     {
-        int indexPlaced = -1;
-        for (j = 0; j < bno; j++)
+        int min_diff = 9999;
+        for(int j=0;j<n_mem;j++)
         {
-            if (bsize[j] >= psize[i] && flags[j] == 0)
+            if(mem_sizes[j]-process_sizes[i]<min_diff && mem_sizes[j]-process_sizes[i]>=0 && visited[j]==0)
             {
-                if (indexPlaced == -1)
-                    indexPlaced = j;
-                else if (bsize[j] < bsize[indexPlaced])
-                    indexPlaced = j;
+                min_diff = mem_sizes[j]-process_sizes[i];
+                mem_loc[i] = j;
             }
         }
-        if (indexPlaced != -1)
-        {
-            allocation[i] = indexPlaced;
-            flags[indexPlaced] = 1;
-        }
+        visited[mem_loc[i]] = 1;
     }
-    printf("\nProcess No.\tMemory Size\t\tBlock No.\t\tProcess Size");
-    for (i = 0; i < pno; i++)
+    for(int i =0;i<n_proc;i++)
     {
-        printf("\n%d\t\t%d\t\t\t", i + 1, bsize[allocation[i]]);
-        if (allocation[i] != -1)
-            printf("%d\t\t\t%d", allocation[i] + 1, psize[i]);
+        if(mem_loc[i]!=-1)
+        printf("Process size = %d goes in location %d and hole is %d\n",process_sizes[i],mem_sizes[mem_loc[i]],mem_sizes[mem_loc[i]]-process_sizes[i]);
         else
-            printf("Not allocated");
+        printf("%d not allocated to memory",process_sizes[i]);
     }
 }
