@@ -30,7 +30,7 @@ void main()
             }
         }
     }
-    int prevBt=0;
+    int prevBt=at[0];
     //ct
     for(i=0;i<n;i++)
     {
