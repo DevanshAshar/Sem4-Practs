@@ -1,7 +1,7 @@
 #include<stdio.h>
 void main()
 {
-    int bt[100],at[100],pro[100],ct[100],tat[100],wt[100],n,i,j,temp,temp1,temp2,ttat=0,twt=0,v[100];
+    int bt[100],at[100],pro[100],ct[100],tat[100],wt[100],n,i,j,temp,temp1,temp2,ttat=0,twt=0,v[100],gant[100],cgant[100],ind=0;
     float attat,awt;
     printf("enter number of processes ");
     scanf("%d",&n);
@@ -30,8 +30,11 @@ void main()
             }
         }
     }
-    for(i=0;i<=at[n-1]+bt[n-1];i++)
+    int flag=0;
+    i=0;
+    while(flag!=n)
     {
+        int f=0;
         for(j=0;j<n;j++)
         {
             if(at[j]<=i && v[j]==0)
@@ -39,8 +42,16 @@ void main()
                 ct[j]=i+bt[j];
                 v[j]=1;
                 i=ct[j];
+                flag++;
+                f=1;
+                gant[ind]=pro[j];
+                cgant[ind]=ct[j];
+                ind++;
+                break;
             }
         }
+        if(f==0)
+        i++;
     }
     for(i=0;i<n;i++)
     {
@@ -59,19 +70,9 @@ void main()
     printf("\n\t%d\t%d\t%d\t%d\t%d\t%d\n",pro[i],at[i],bt[i],ct[i],tat[i],wt[i]);
     printf("\nAvg TAT=%f\nAvg WT=%f",attat,awt);
     printf("\nGant Chart \n");
-    for(i=0,j=0;i<ct[n-1];)
-    {
-        if(i<at[j])
-        {
-            printf("%d|---",i);
-            i++;
-        }
-        else if(i>=at[j])
-        {
-            printf("|%d|P%d",i,pro[j]);
-            i=ct[j];
-            j++;
-        }
-    }
-    printf("|%d",ct[n-1]);
+    for(i=0;i<ind;i++)
+    printf("%d\t",gant[i]);
+    printf("\n");
+    for(i=0;i<ind;i++)
+    printf("%d\t",cgant[i]);
 }
