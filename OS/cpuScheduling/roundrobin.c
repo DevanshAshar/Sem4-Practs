@@ -52,7 +52,8 @@ int isEmpty() {
 void main() {
     Process proc[10];
     Process temp;
-    int i, n, j, t_qu;
+    int i, n, j, t_qu,ind=0;
+    int gant[100],cgant[100];
     float total_tat = 0, total_wt = 0;
     printf("Enter the number of processes : ");
     scanf("%d",&n);
@@ -101,6 +102,9 @@ void main() {
                 t += t_qu;
                 proc[index].rt -= t_qu;
             }
+            gant[ind]=proc[index].pid;
+            cgant[ind]=t;
+            ind++;
         }
         // we search for new processes that have not yet arrived
         for (i=0; i<n; i++) 
@@ -112,14 +116,14 @@ void main() {
             }
         }
         // index is queued behind again only after processes till time - t have arrived
-        if (index != -1 && proc[index].rt > 0) {
+        if (index != -1 && proc[index].rt > 0) 
+        {
             enqueue(index);
             proc[index].in_q = 1;
         }
         // if queue is empty we increment time
-        if (isEmpty()) {
-            t++;
-        }
+        if (isEmpty()) 
+        t++;
     }    
     for (i=0; i<n; i++) 
     {
@@ -133,4 +137,10 @@ void main() {
     printf("P%d\t%d\t%d\t%d\t%d\t%d\n",proc[i].pid, proc[i].at, proc[i].bt,  proc[i].ct, proc[i].tat, proc[i].wt);
     printf("Average Turnaround Time : %.2f \n",total_tat/n);
     printf("Average Waiting Time : %.2f \n",total_wt/n);
+    printf("\nGant Chart\n");
+    for(i=0;i<ind;i++)
+    printf("P%d ",gant[i]);
+    printf("\n");
+    for(i=0;i<ind;i++)
+    printf("%d  ",cgant[i]);   
 }
