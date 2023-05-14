@@ -1,55 +1,49 @@
 #include<stdio.h>
-
 int inframe(int f[], int nf, int v)
 {
     for(int i=0;i<nf;i++)
     {
         if(f[i]==v)
-        {return 1;}
-    }return 0;
+        return 1;
+    }
+    return 0;
 }
-
 int replace(int d[], int f[], int pos,int nf)
 {
-    int freq[100],ind[100];
-    for(int i=0;i<nf;i++){freq[i]=0;ind[i]=0;}
+    int freq[100],ind[100],min = 999999,index=pos,frind;
     for(int i=0;i<nf;i++)
     {
+        freq[i]=0,ind[i]=0;
         for(int j=pos;j>=0;j--)
         {
             if(d[j]==f[i])
             {
-                freq[i] = freq[i]+1;
+                freq[i]++;
                 ind[i]=j;
             }
         }
-    }
-    int min = 999999,index=pos,frind;
-    for(int i=0;i<nf;i++)
-    {
         if(freq[i]<=min && ind[i]<index)
         {
             min = freq[i];
-            frind = i;
             index = ind[i];
+            frind = i;
         }
     }
-    // printf("\nfin %d\n",index);
     return frind;
 }
-
 void main()
 {
     int data[]={1,2,3,4,2,1,5,3,2,4,6};
     int n = sizeof(data)/sizeof(data[0]);
     int frame[100],nf=3,j,hit=0;
-    for(int i=0;i<nf;i++){frame[i]=-1;}
+    for(int i=0;i<nf;i++)
+    frame[i]=-1;
     for(int i=0;i<n;i++)
     {
-        if(frame[i]==-1 && i<3)
-        {frame[i]=data[i];}
+        if(frame[i]==-1 && i<nf)
+        frame[i]=data[i];
         else if(inframe(frame,nf,data[i])==1)
-        {hit++;}
+        hit++;
         else
         {
             int r = replace(data,frame,i,nf);
@@ -57,9 +51,7 @@ void main()
         }
         printf("\n%d -> ",data[i]);
         for(int l=0;l<nf;l++)
-        {
-            printf("%d ",frame[l]);
-        }
+        printf("%d ",frame[l]);
     }
     printf("\nhits : %d and Faults : %d\n",hit, n-hit);
 }
