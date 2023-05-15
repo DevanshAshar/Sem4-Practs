@@ -1,12 +1,12 @@
 import random
-file_pdf=input("enter sentence ");
+sent=input("enter sentence ");
 start = 0
 end=0
 packet_string = ""
-while end<len(file_pdf):
+while end<len(sent):
  power = random.randint(1,8)
- end += 2**power
- packet = str(2**power)+file_pdf[start:end]
+ end += 2**power-1
+ packet = str(2**power)+sent[start:end]
  start = end
  packet_string= packet_string + packet + "\n\n"
 print(packet_string)
