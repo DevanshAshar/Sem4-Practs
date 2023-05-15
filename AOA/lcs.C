@@ -6,7 +6,7 @@ void LCS(char x[], char y[])
 {
     int m = strlen(x);
     int n = strlen(y);
-    for(int k=1;k<m;k++)
+    for(int k=0;k<=m;k++)
     w[k][0]=0;//initialing zero at first row
     for(int l=0;l<=n;l++)
     w[0][l]=0;//initialing zero at first column
