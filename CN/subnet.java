@@ -6,22 +6,14 @@ class subnet
         Scanner sc=new Scanner(System.in);
         String ip,first,mask=" ",subnetAdd="";
         char clas=' ',ch;
-	int i,k=0,ct=0;
-        int ind[]=new int[3];
+	int i,k=0,ct=0,ind;
         System.out.println("Enter ip address ");
         ip=sc.nextLine();
-        for(i=0;i<ip.length();i++)
+        ind=ip.indexOf('.');
+	String ipArr[]=ip.split("\\.");
+        if(ipArr.length==4)
         {
-            ch=ip.charAt(i);
-            if(ch=='.')
-            {
-                ind[k++]=i;
-                ct++;
-            }
-        }
-        if(ct==3)
-        {
-            first=ip.substring(0,ind[0]);
+            first=ip.substring(0,ind);
             int f=Integer.parseInt(first);
             if(f>=0 && f<=127)
             {
@@ -59,7 +51,6 @@ class subnet
                 System.out.println("Subnet class "+clas);
                 System.out.println("Experimental");
             }
-            String ipArr[]=ip.split("\\.");
             if(mask!=" ")
             {
                 String maskArr[]=mask.split("\\.");
