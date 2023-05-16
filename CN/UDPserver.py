@@ -11,4 +11,3 @@ while True:
 		break;
 	else:
 		print("from client "+data.decode("utf-8"))
-	
