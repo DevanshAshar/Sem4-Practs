@@ -39,38 +39,23 @@ void main()
             scanf("%d",&data[i]);
             if(par==1)
             {
-                idealData[1]=data[3]^data[5]^data[7];
-                idealData[2]=data[3]^data[6]^data[7];
-                idealData[4]=data[5]^data[6]^data[7];
+                idealData[1] = data[3]^data[5]^data[7]^data[1];
+                idealData[2] = data[3]^data[6]^data[7]^data[2];
+                idealData[4] = data[5]^data[6]^data[7]^data[4];
             }
             else
             {
-                idealData[1]=1-(data[3]^data[5]^data[7]);
-                idealData[2]=1-(data[3]^data[6]^data[7]);
-                idealData[4]=1-(data[5]^data[6]^data[7]);
+                idealData[1]=1-(data[3]^data[5]^data[7]^data[1]);
+                idealData[2]=1-(data[3]^data[6]^data[7]^data[2]);
+                idealData[4]=1-(data[5]^data[6]^data[7]^data[4]);
             }
-            if(data[1]!=idealData[1])
-            {
-                printf("Error at bit 7\n");
-                flag=1;
-                data[1]=idealData[1];
-            }
-            if(data[2]!=idealData[2])
-            {
-                printf("Error at bit 6\n");
-                flag=1;
-                data[2]=idealData[2];
-            }
-            if(data[4]!=idealData[4])
-            {
-                printf("Error at bit 4\n");
-                flag=1;
-                data[4]=idealData[4];
-            }
-            if(flag==0)
+            int e = 4*idealData[4] + 2*idealData[2] + 1*idealData[1];
+            // printf("%d",e);
+            if(e==0)
             printf("No errors ");
             else
             {
+                data[e] = 1-data[e];
                 printf("Correct hamming code is ");
                 for(i=7;i>0;i--)
                 printf("%d",data[i]);
