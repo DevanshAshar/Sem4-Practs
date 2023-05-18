@@ -60,8 +60,8 @@ void main () {
 	{
 	    printf("%d - %d \t%d \n", par[i], i,graph[i][par[i]]);
 	    total+=graph[i][par[i]];
-	    spanning[i][par[i]]=graph[i][par[i]];
-	    spanning[par[i]][i]=graph[i][par[i]];
+	    spanning[i][par[i]]=1;
+	    spanning[par[i]][i]=1;
 	}
 	printf("Total Cost=%d\n",total);
 	printf("Spanning Matrix\n");
