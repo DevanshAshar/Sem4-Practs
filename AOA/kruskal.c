@@ -31,9 +31,7 @@ void main()
         {
             for(j=0;j<5;j++)
             {
-                if(graph[i][j]==0)
-                graph[i][j]=999;
-                if(graph[i][j]<min)
+                if(graph[i][j]<min && graph[i][j]!=0)
                 {
                     min=graph[i][j];
                     a=u=i;
@@ -48,7 +46,7 @@ void main()
             printf("Edge %d:(%d %d) cost:%d\n",++ne,a,b,min);
             minCost+=min;
         }
-        graph[a][b]=graph[b][a]=999;
+        graph[a][b]=graph[b][a]=0;
     }
     printf("Minimum cost:%d\n",minCost);
 }
