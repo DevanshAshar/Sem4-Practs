@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <limits.h>
 #define V 5
-void initializeSingleSource(int dist[], int par[], bool visited[], int source)
+void initialize(int dist[], int par[], bool visited[], int source)
 {
     int i;
     for (i=0; i<V; i++)
@@ -34,7 +34,7 @@ void relax(int u, int graph[][V], int dist[], bool visited[], int par[])
         }
     }
 }
-void dijkstra(int graph[][V], int dist[], bool visited[], int par[], int source)
+void prims(int graph[][V], int dist[], bool visited[], int par[], int source)
 {
     int u, count;
     for (count = 0; count < V - 1; count++) {
@@ -43,18 +43,32 @@ void dijkstra(int graph[][V], int dist[], bool visited[], int par[], int source)
         visited[u] = true;
 }
 }
-int main () {
+void main () {
     int graph[V][V] = { { 0, 2, 0, 6, 0 },
 						{ 2, 0, 3, 8, 5 },
 						{ 0, 3, 0, 0, 7 },
 						{ 6, 8, 0, 0, 9 },
 						{ 0, 5, 7, 9, 0 } };
-    int source = 0;
+	int spanning[V][V]={0};
+    int source = 0,total=0;
     int dist[V], par[V];
     bool visited[V];
-    initializeSingleSource(dist, par, visited, source);
-    dijkstra(graph, dist, visited, par, source);
+    initialize(dist, par, visited, source);
+    prims(graph, dist, visited, par, source);
     printf("Edge \tWeight\n");
 	for (int i = 1; i < V; i++)
-	printf("%d - %d \t%d \n", par[i], i,graph[i][par[i]]);
+	{
+	    printf("%d - %d \t%d \n", par[i], i,graph[i][par[i]]);
+	    total+=graph[i][par[i]];
+	    spanning[i][par[i]]=graph[i][par[i]];
+	    spanning[par[i]][i]=graph[i][par[i]];
+	}
+	printf("Total Cost=%d\n",total);
+	printf("Spanning Matrix\n");
+	for(int i=0;i<V;i++)
+	{
+	    for(int j=0;j<V;j++)
+	    printf("%d\t",spanning[i][j]);
+	    printf("\n");
+	}
 }
