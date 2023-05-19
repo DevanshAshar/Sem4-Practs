@@ -7,7 +7,7 @@ while True:
 	print("server on...")
 	data,addr = sock.recvfrom(1024)
 	if data.decode("utf-8") == "close":
-		sock.close
-		break;
+		sock.close()
+		break
 	else:
 		print("from client "+data.decode("utf-8"))
