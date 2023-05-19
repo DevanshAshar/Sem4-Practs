@@ -6,6 +6,6 @@ sock.connect((host,port))
 while True:
 	data=input("Enter message for server ")
 	if data=="close":
-		sock.close
+		sock.close()
 		break
 	sock.sendto(bytes(data,"utf-8"),(host,port))
